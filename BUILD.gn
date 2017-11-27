@@ -1,0 +1,62 @@
+config("libuv_config") {
+  include_dirs = [ "include", "src" ]
+}
+
+source_set("libuv_sources") {
+  sources = [
+    "src/fs-poll.c",
+    "src/heap-inl.h",
+    "src/inet.c",
+    "src/queue.h",
+    "src/threadpool.c",
+    "src/uv-common.c",
+    "src/uv-common.h",
+    "src/version.c",
+
+    "src/unix/async.c",
+    "src/unix/atomic-ops.h",
+    "src/unix/core.c",
+    "src/unix/dl.c",
+    "src/unix/fs.c",
+    "src/unix/getaddrinfo.c",
+    "src/unix/getnameinfo.c",
+    "src/unix/internal.h",
+    "src/unix/loop.c",
+    "src/unix/loop-watcher.c",
+    "src/unix/pipe.c",
+    "src/unix/poll.c",
+    "src/unix/process.c",
+    "src/unix/signal.c",
+    "src/unix/spinlock.h",
+    "src/unix/stream.c",
+    "src/unix/tcp.c",
+    "src/unix/thread.c",
+    "src/unix/timer.c",
+    "src/unix/tty.c",
+    "src/unix/udp.c",
+
+    "src/unix/darwin.c",
+    "src/unix/fsevents.c",
+    "src/unix/darwin-proctitle.c",
+
+    "src/unix/bsd-ifaddrs.c",
+    "src/unix/kqueue.c",
+  ]
+  configs += [ ":libuv_config" ]
+  defines = []
+  cflags = [ 
+    "-D_LARGEFILE_SOURCE",
+    "-D_FILE_OFFSET_BITS=64",
+    "-D_DARWIN_USE_64_BIT_INODE",
+    "-Wall", "-Wextra", "-Wno-unused-parameter","-Wstrict-prototypes",
+    "-Wstring-conversion",
+    "--std=gnu89", "-pedantic",
+  ]
+}
+
+group("libuv") {
+  public_configs = [ ":libuv_config" ]
+  public_deps = [
+    ":libuv_sources",
+  ]
+}
